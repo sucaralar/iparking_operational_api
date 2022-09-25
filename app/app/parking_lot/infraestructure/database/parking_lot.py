@@ -23,3 +23,4 @@ class ParkingLot(Base):
 
     parking_lot = relationship("ParkingSchedule", back_populates='parking_lot')
     parking_gate = relationship("ParkingGate", back_populates='parking_lot')
+    operation_type = relationship("Operation", back_populates='parking_lot')

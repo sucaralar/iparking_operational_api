@@ -27,3 +27,6 @@ class ParkingGate(Base):
     modification_user = Column(UUID(as_uuid=True))
 
     parking_lot = relationship("ParkingLot")
+    operation = relationship("Operation", back_populates='operation_type')
+    entry_parking_gate = relationship("Operation", back_populates='entry_parking_gated')
+    exit_parking_gate = relationship("Operation", back_populates='exit_parking_gated')

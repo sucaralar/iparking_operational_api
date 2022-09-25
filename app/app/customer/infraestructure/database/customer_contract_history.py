@@ -7,7 +7,7 @@ from app.core.infraestructure.database.connection import Base
 
 
 class CustomerContractHistory(Base):
-    __tablename__ = "custormer_contract_history"
+    __tablename__ = "customer_contract_history"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     customer_id = Column(UUID(as_uuid=True), ForeignKey("customer.id"))
@@ -22,3 +22,5 @@ class CustomerContractHistory(Base):
     modification_user = Column(UUID(as_uuid=True))
 
     user = relationship("User")
+
+    operation = relationship("Operation", back_populates='customer_contract_history')
