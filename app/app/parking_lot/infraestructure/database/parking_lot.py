@@ -24,3 +24,5 @@ class ParkingLot(Base):
     parking_lot = relationship("ParkingSchedule", back_populates='parking_lot')
     parking_gate = relationship("ParkingGate", back_populates='parking_lot')
     operation_type = relationship("Operation", back_populates='parking_lot')
+    cash_closing = relationship("CashClosing", back_populates='parking_lot')
+    payment_history = relationship("PaymentHistory", back_populates='parking_lot')

@@ -29,3 +29,4 @@ class ParkingRate(Base):
     modification_user = Column(UUID(as_uuid=True))
 
     operation = relationship("Operation", back_populates='parking_rate')
+    payment_history = relationship("PaymentHistory", back_populates='parking_rate')

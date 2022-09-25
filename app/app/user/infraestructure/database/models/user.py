@@ -24,8 +24,10 @@ class User(Base):
     role_id = Column(UUID(as_uuid=True), ForeignKey("role.id"))
 
     role = relationship("Role")
-
     employee = relationship("Employee", back_populates='user')
     client = relationship("Client", back_populates='user')
+    cashier = relationship("CashClosing", back_populates='cashier')
+    who_accepts = relationship("CashClosing", back_populates='who_accepts')
+    payment_history = relationship("PaymentHistory", back_populates='cashier')
 
     UniqueConstraint('email', 'user_type', name='unique_user')

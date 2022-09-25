@@ -34,7 +34,7 @@ class Operation(Base):
     total_time = Column(Float)
     parking_rate_id = Column(UUID(as_uuid=True), ForeignKey("parking_rate.id"))
     payment_status = Column(Enum(PaymentStatus), nullable=True)
-    # payment_id = Column(Enum(PaymentStatus), nullable=True)
+    payment_id = Column(Enum(PaymentStatus), nullable=True)
     payment_status = Column(UUID(as_uuid=True), ForeignKey("payment.id"), nullable=True)
 
     customer_contract_history_id = Column(UUID(as_uuid=True), ForeignKey("customer_contract_history.id"), nullable=True)
@@ -49,5 +49,5 @@ class Operation(Base):
     entry_parking_gate = relationship("ParkingGate")
     exit_parking_gate = relationship("ParkingGate")
     parking_rate = relationship("ParkingRate")
-    # payment = relationship("Payment")
+    payment = relationship("PaymentHistory")
     customer_contract_history = relationship("CustomerContractHistory")

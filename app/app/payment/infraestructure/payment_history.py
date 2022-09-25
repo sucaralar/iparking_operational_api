@@ -1,42 +1,37 @@
-import enum
 import uuid
+from tokenize import String
 
-from sqlalchemy import Column, DateTime, func, Integer, ForeignKey
+from sqlalchemy import Column, DateTime, func, Integer, ForeignKey, Float
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
 
 from app.core.infraestructure.database.connection import Base
 
 
-class CashClosingStatus(enum.Enum):
-    open = 'Open'
-    send = 'Send'
-    close = 'Close'
-
-
-class CashClosing(Base):
-    __tablename__ = "cash_closing"
+class PaymentHistory(Base):
+    __tablename__ = "payment_history"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    cashier_id = Column(UUID(as_uuid=True), ForeignKey("user.id"))
+    payment_datetime = Column(DateTime)
     parking_lot_id = Column(UUID(as_uuid=True), ForeignKey("parking_lot.id"))
+    cashier_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=True)
+    parking_rate_id = Column(UUID(as_uuid=True), ForeignKey("parking_rate.id"))
+    total_time = Column(Float)
     cash_box_control_id = Column(UUID(as_uuid=True), ForeignKey("cash_box_control.id"))
-    shift_start_datetime = Column(DateTime)
-    detail_start_shift = Column(JSONB)
-    cars_inside_start_shift = Column(Integer)
-    shift_end_datetime = Column(DateTime)
-    detail_end_shift = Column(JSONB)
-    cars_inside_end_shift = Column(Integer)
-    cash_closing_detail = Column(JSONB)
-    money_detail = Column(JSONB)
-    who_accepts_id = Column(UUID(as_uuid=True), ForeignKey("user.id"))
+    cash_box_name = Column(String(2))
+    receipt = Column(Integer)
+    year = Column(Integer)
+    operation_id = Column(UUID(as_uuid=True), ForeignKey("operation.id"))
+    billing_detail = Column(JSONB)
     creation_date = Column(DateTime, nullable=False, server_default=func.now())
     modification_date = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.current_timestamp())
     creation_user = Column(UUID(as_uuid=True))
     modification_user = Column(UUID(as_uuid=True))
 
-    cashier = relationship('User')
     parking_lot = relationship('ParkingLot')
+    cashier = relationship('User')
+    parking_rate = relationship('ParkingRate')
     cash_box_control = relationship('CashBoxControl')
-    who_accepts = relationship('User')
+
+    operation = relationship("Operation", back_populates='payment')
 
