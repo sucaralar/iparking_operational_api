@@ -1,0 +1,6 @@
+venv
+.env_app
+.env_db
+.idea
+.DS_Store
+*.pyc

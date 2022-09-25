@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    volumes:
+      - ./app:/app
+    env_file:
+      - .env_app
+    depends_on:
+      - psql
+    ports:
+      - "9000:9000"
+  psql:
+    image: postgis/postgis
+    volumes:
+      - iparking_psql_volume:/var/lib/postgresql
+    env_file:
+      - .env_db
+    ports:
+      - "5438:5432"
+    expose:
+      - "5438"
+
+volumes:
+  iparking_psql_volume:
+    external: true
